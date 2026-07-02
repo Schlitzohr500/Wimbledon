@@ -52,20 +52,7 @@ body{
 .island{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:126px;height:36px;background:#000;border-radius:20px;z-index:50;}
 .island::after{content:"";position:absolute;right:13px;top:50%;transform:translateY(-50%);width:9px;height:9px;border-radius:50%;background:#0b0b12;box-shadow:inset 0 0 0 1px #20202b;}
 
-/* Real phone / installed app -> fill the whole screen */
-@media (max-width:440px),(display-mode:standalone){
-  body{background:#000;overflow:hidden;}
-  #device{width:100vw!important;height:100dvh;height:100svh;border-radius:0;box-shadow:none;transform:none!important;}
-  .island{display:none;}
-}
-.app{position:absolute;inset:0;overflow:hidden;background:#fff;display:flex;flex-direction:column;
-  padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom);}
-
-/* Installed as a real iPhone app -> let iOS draw its own status bar */
-@media (display-mode:standalone){
-  .statusbar{display:none;}
-  .nav-home-indicator{display:none;}
-}
+.app{position:absolute;inset:0;overflow:hidden;background:#fff;display:flex;flex-direction:column;}
 
 /* ------- Status bar ------- */
 .statusbar{
@@ -290,6 +277,19 @@ body{
 .placeholder img{width:96px;height:96px;opacity:.85;}
 .placeholder h3{font-size:24px;color:#16171B;font-weight:800;}
 .placeholder p{font-size:16px;max-width:230px;line-height:1.4;}
+
+/* Real phone / installed app -> fill the whole screen.
+   iOS draws the real status bar & home indicator, so the fake ones are hidden
+   and the safe areas stay white.
+   NOTE: must stay at the END of the stylesheet to win the cascade. */
+@media (max-width:440px),(display-mode:standalone){
+  body{background:#fff;overflow:hidden;}
+  #device{width:100vw!important;height:100dvh;height:100svh;border-radius:0;box-shadow:none;transform:none!important;}
+  .island{display:none;}
+  .statusbar{display:none;}
+  .nav-home-indicator{display:none;}
+  .screen{top:env(safe-area-inset-top,0px);bottom:env(safe-area-inset-bottom,0px);}
+}
 </style>
 </head>
 <body>
